@@ -3,9 +3,9 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "../../../server/db/client";
 
 export const authOptions: NextAuthOptions = {
-  // pages: {
-  //   signIn: "/auth/signin",
-  // },
+  pages: {
+    signIn: "/auth/signin",
+  },
   session: {
     strategy: "jwt",
     maxAge: 3 * 24 * 60 * 60,
@@ -21,12 +21,8 @@ export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       credentials: {
-        email: { label: "Email", type: "email", placeholder: "john@doe.com" },
-        password: {
-          label: "Password",
-          type: "password",
-          placeholder: "password",
-        },
+        email: {},
+        password: {},
       },
       async authorize(credentials) {
         const user = await prisma.user.findFirst({
