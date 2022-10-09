@@ -5,28 +5,17 @@ import { NextPage } from "next";
 import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
+import { signUpDataSchema } from "../../utils/schemas";
 import SignupIllustration from "./signup-illustration.svg";
 
-type Inputs = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-};
-
-const schema = z.object({
-  firstName: z.string().min(1, "First name is required"),
-  lastName: z.string().min(1, "Last name is required"),
-  email: z.string().min(1, "Email is required").email("Email is invalid"),
-  password: z.string().min(8, "Password must contain at least 8 characters"),
-});
+type Inputs = z.infer<typeof signUpDataSchema>;
 
 const SignUp: NextPage = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({ resolver: zodResolver(schema) });
+  } = useForm<Inputs>({ resolver: zodResolver(signUpDataSchema) });
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data);
