@@ -7,7 +7,6 @@ import Link from "next/link.js";
 import { useRouter } from "next/router";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { clientEnv } from "../../env/schema.mjs";
 import { signUpDataSchema } from "../../utils/schemas";
 import { trpc } from "../../utils/trpc";
 import SignupIllustration from "./signup-illustration.svg";
@@ -29,7 +28,7 @@ const SignUp: NextPage = () => {
       return;
     },
     onSuccess() {
-      router.push(`${clientEnv.NEXT_PUBLIC_URL}/auth/signin`);
+      router.push("/auth/signin");
     },
   });
 
