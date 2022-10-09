@@ -3,22 +3,37 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { NextPage } from "next";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
+import { clientEnv } from "../../env/schema.mjs";
 import { signUpDataSchema } from "../../utils/schemas";
+import { trpc } from "../../utils/trpc";
 import SignupIllustration from "./signup-illustration.svg";
 
 type Inputs = z.infer<typeof signUpDataSchema>;
 
 const SignUp: NextPage = () => {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({ resolver: zodResolver(signUpDataSchema) });
 
+  const authSignUp = trpc.auth.signUp.useMutation({
+    onError() {
+      // TODO: Handle errors
+      return;
+    },
+    onSuccess() {
+      router.push(`${clientEnv.NEXT_PUBLIC_URL}/auth/signin`);
+    },
+  });
+
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+    authSignUp.mutate(data);
   };
 
   return (
