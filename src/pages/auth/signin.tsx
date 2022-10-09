@@ -1,6 +1,7 @@
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { GetServerSideProps, NextPage } from "next";
 import { getCsrfToken } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
 interface SignInPageProps {
@@ -61,12 +62,11 @@ const SignIn: NextPage<SignInPageProps> = ({ csrfToken }) => {
           <button className="mb-2 block w-7/12 self-center rounded-2xl bg-yellow-400 py-3 text-sm font-bold">
             Continue
           </button>
-          <a
-            className="block w-7/12 self-center rounded-2xl bg-gray-200 py-3 text-center text-sm"
-            href=""
-          >
-            Create account
-          </a>
+          <Link href="/auth/signup">
+            <a className="block w-7/12 self-center rounded-2xl bg-gray-200 py-3 text-center text-sm">
+              Create account
+            </a>
+          </Link>
         </form>
       </div>
     </div>

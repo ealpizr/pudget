@@ -3,6 +3,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { NextPage } from "next";
 import Image from "next/image";
+import Link from "next/link.js";
 import { useRouter } from "next/router";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -40,21 +41,22 @@ const SignUp: NextPage = () => {
     <div className="flex h-full items-center justify-center">
       <div className="flex h-full w-full max-w-[1200px] flex-col items-center gap-6 p-4 lg:flex-row">
         <div className="flex items-center gap-4 self-start">
-          <a href="#" className="rounded-full bg-gray-300 p-1 lg:hidden">
-            <ArrowBackIcon />
-          </a>
+          <Link href="/auth/signin">
+            <a className="rounded-full bg-gray-300 p-1 lg:hidden">
+              <ArrowBackIcon />
+            </a>
+          </Link>
           <h3 className="lg:hidden">Create account</h3>
         </div>
         <div className="flex w-3/4 items-center justify-center lg:hidden">
           <Image src={SignupIllustration} alt="Illustration" />
         </div>
         <div className="w-full max-w-[500px] lg:flex lg:gap-3">
-          <a
-            href="#"
-            className="hidden h-fit rounded-full bg-gray-300 p-1 lg:block"
-          >
-            <ArrowBackIcon />
-          </a>
+          <Link href="/auth/signin">
+            <a className="hidden h-fit rounded-full bg-gray-300 p-1 lg:block">
+              <ArrowBackIcon />
+            </a>
+          </Link>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-3 lg:p-1"
