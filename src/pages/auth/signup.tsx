@@ -123,9 +123,11 @@ const SignUp: NextPage = () => {
             </button>
             <p className="text-center">
               Already have an account?{" "}
-              <a className="cursor-pointer font-bold text-yellow-400 underline">
-                Sign in!
-              </a>
+              <Link href="/auth/signin">
+                <a className="cursor-pointer font-bold text-yellow-400 underline">
+                  Sign in!
+                </a>
+              </Link>
             </p>
           </form>
         </div>
