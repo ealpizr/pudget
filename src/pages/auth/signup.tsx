@@ -1,12 +1,37 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { NextPage } from "next";
 import Image from "next/image";
-import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
 import SignupIllustration from "./signup-illustration.svg";
 
+type Inputs = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+};
+
+const schema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().min(1, "Email is required").email("Email is invalid"),
+  password: z.string().min(8, "Password must contain at least 8 characters"),
+});
+
 const SignUp: NextPage = () => {
-  const [error, setError] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>({ resolver: zodResolver(schema) });
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    console.log(data);
+  };
+
   return (
     <div className="flex h-full items-center justify-center">
       <div className="flex h-full w-full max-w-[1200px] flex-col items-center gap-6 p-4 lg:flex-row">
@@ -26,25 +51,29 @@ const SignUp: NextPage = () => {
           >
             <ArrowBackIcon />
           </a>
-          <form action="" className="flex flex-col gap-3 lg:p-1">
-            {error && (
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-3 lg:p-1"
+          >
+            {Object.values(errors)[0]?.message && (
               <div className="flex items-center justify-center gap-2 bg-red-600 p-3 font-bold text-gray-50 lg:hidden">
                 <ErrorOutlineIcon className="text-3xl" />
-                <p>{error}</p>
+                <p>{Object.values(errors)[0]?.message}</p>
               </div>
             )}
             <h3 className="hidden lg:block">Create account</h3>
-            {error && (
+            {Object.values(errors)[0]?.message && (
               <div className="hidden items-center justify-center gap-2 bg-red-600 p-3 font-bold text-gray-50 lg:flex">
                 <ErrorOutlineIcon className="text-3xl" />
-                <p>{error}</p>
+                <p>{Object.values(errors)[0]?.message}</p>
               </div>
             )}
             <div className="flex flex-col gap-3 sm:flex-row">
               <div className="">
                 <p className="mb-1 text-sm">First name</p>
                 <input
-                  className="w-full rounded-md border border-gray-500 py-2 px-3 outline-none"
+                  {...register("firstName")}
+                  className={`w-full rounded-md border border-gray-500 py-2 px-3 outline-none`}
                   placeholder="First name"
                   type="text"
                   name="firstName"
@@ -53,16 +82,18 @@ const SignUp: NextPage = () => {
               <div className="">
                 <p className="mb-1 text-sm">Last name</p>
                 <input
+                  {...register("lastName")}
                   className="w-full rounded-md border border-gray-500 py-2 px-3 outline-none"
                   placeholder="Last name"
                   type="text"
-                  name="Last name"
+                  name="lastName"
                 />
               </div>
             </div>
             <div className="">
               <p className="mb-1 text-sm">Email</p>
               <input
+                {...register("email")}
                 className="w-full rounded-md border border-gray-500 py-2 px-3 outline-none"
                 placeholder="Your email address"
                 type="email"
@@ -72,13 +103,17 @@ const SignUp: NextPage = () => {
             <div className="">
               <p className="mb-1 text-sm">Password</p>
               <input
+                {...register("password")}
                 className="w-full rounded-md border border-gray-500 py-2 px-3 outline-none"
                 placeholder="Minimum 8 characters"
                 type="password"
                 name="password"
               />
             </div>
-            <button className="mx-auto mt-2 block w-7/12 rounded-2xl bg-yellow-400 py-4 text-sm font-bold">
+            <button
+              type="submit"
+              className="mx-auto mt-2 block w-7/12 rounded-2xl bg-yellow-400 py-4 text-sm font-bold"
+            >
               Create account
             </button>
             <p className="text-center">
