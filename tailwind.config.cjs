@@ -9,6 +9,7 @@ module.exports = {
       },
       colors: {
         pudgetYellow: "#FFD60A",
+        pudgetDark: "#0D1520"
       },
     },
   },
