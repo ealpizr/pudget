@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import HomeLayout from "../layouts/HomeLayout";
+import HomeLayout from "../../layouts/HomeLayout";
 
 const ExpensesPage: NextPage = () => {
   return (

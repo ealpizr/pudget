@@ -1,11 +1,15 @@
 import type { NextPage } from "next";
-import HomeLayout from "../layouts/HomeLayout";
+import Link from "next/link";
 
 const HomePage: NextPage = () => {
   return (
-    <HomeLayout>
-      <h1>Home</h1>
-    </HomeLayout>
+    <div className="flex h-full items-center justify-center">
+      <Link href="/dashboard">
+        <button className="border border-gray-600 p-6 font-bold">
+          Go to dashboard
+        </button>
+      </Link>
+    </div>
   );
 };
 

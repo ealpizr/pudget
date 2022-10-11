@@ -10,27 +10,27 @@ import Sidebar from "../components/sidebar/Sidebar";
 
 const sidebarItems = [
   {
-    href: "/",
+    href: "/dashboard",
     title: "Dashboard",
     icon: <DashboardIcon />,
   },
   {
-    href: "/transactions",
+    href: "/dashboard/transactions",
     title: "Transactions",
     icon: <ReceiptLongIcon />,
   },
   {
-    href: "/incomes",
+    href: "/dashboard/incomes",
     title: "Incomes",
     icon: <TrendingUpIcon />,
   },
   {
-    href: "/expenses",
+    href: "/dashboard/expenses",
     title: "Expenses",
     icon: <TrendingDownIcon />,
   },
   {
-    href: "/settings",
+    href: "/dashboard/settings",
     title: "Settings",
     icon: <SettingsIcon />,
   },
