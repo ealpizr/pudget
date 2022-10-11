@@ -11,7 +11,7 @@ import SidebarButton from "./SidebarButton";
 
 const Sidebar = () => {
   return (
-    <section className="flex h-full flex-col justify-between border border-r-gray-500 bg-pudgetDark text-white">
+    <section className="flex h-full w-full max-w-[300px] flex-col justify-between border-r border-r-gray-500 bg-pudgetDark text-white ">
       <div className="flex flex-1 flex-col items-center justify-center p-3">
         <div className="flex w-full items-center justify-between">
           <p className="font-pudgetDisplay text-3xl text-yellow-400">Pudget</p>
