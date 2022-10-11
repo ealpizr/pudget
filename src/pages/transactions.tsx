@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
 import HomeLayout from "../layouts/HomeLayout";
 
-const HomePage: NextPage = () => {
+const TransactionsPage: NextPage = () => {
   return (
     <HomeLayout>
-      <h1>Home</h1>
+      <h1>Transactions</h1>
     </HomeLayout>
   );
 };
 
-export default HomePage;
+export default TransactionsPage;

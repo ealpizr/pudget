@@ -1,16 +1,13 @@
-import { ReactNode } from "react";
+import Link from "next/link";
+import type { SidebarItem } from "./types";
 
-interface Props {
-  text: string;
-  // SvgIconComponent does not work for some reason
-  icon: ReactNode;
-}
-
-const SidebarButton = ({ text, icon }: Props) => {
+const SidebarButton = ({ href, title, icon }: SidebarItem) => {
   return (
     <li className="cursor-pointer px-6 py-3 text-xl">
       {icon}
-      <span className="ml-3">{text}</span>
+      <Link href={href}>
+        <a className="ml-3">{title}</a>
+      </Link>
     </li>
   );
 };

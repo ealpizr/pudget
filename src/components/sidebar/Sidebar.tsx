@@ -1,15 +1,14 @@
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import IndeterminateCheckBoxOutlinedIcon from "@mui/icons-material/IndeterminateCheckBoxOutlined";
-import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
-import SettingsIcon from "@mui/icons-material/Settings";
-import TrendingDownIcon from "@mui/icons-material/TrendingDown";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import Image from "next/image";
 import AvatarPlaceholder from "./avatar-placeholder.jpg";
 import SidebarButton from "./SidebarButton";
+import type { SidebarItem } from "./types";
 
-const Sidebar = () => {
+interface Props {
+  items: SidebarItem[];
+}
+
+const Sidebar = ({ items }: Props) => {
   return (
     <section className="flex h-full w-full max-w-[300px] flex-col justify-between border-r border-r-gray-500 bg-pudgetDark text-white ">
       <div className="flex flex-1 flex-col items-center justify-center p-3">
@@ -32,12 +31,14 @@ const Sidebar = () => {
       </div>
       <div>
         <ul className="flex flex-col gap-1">
-          <SidebarButton text="Dashboard" icon={<DashboardIcon />} />
-          <SidebarButton text="Transactions" icon={<ReceiptLongIcon />} />
-          <SidebarButton text="Incomes" icon={<TrendingUpIcon />} />
-          <SidebarButton text="Expenses" icon={<TrendingDownIcon />} />
-          <SidebarButton text="Settings" icon={<SettingsIcon />} />
-          <SidebarButton text="Sign out" icon={<ExitToAppIcon />} />
+          {items.map((i) => (
+            <SidebarButton
+              key={i.title}
+              title={i.title}
+              icon={i.icon}
+              href={i.href}
+            />
+          ))}
         </ul>
       </div>
       <div className="flex flex-1 items-end justify-center">
