@@ -3,12 +3,12 @@ import type { SidebarItem } from "./types";
 
 const SidebarButton = ({ href, title, icon }: SidebarItem) => {
   return (
-    <li className="cursor-pointer px-6 py-3 text-xl">
-      {icon}
-      <Link href={href}>
+    <Link href={href}>
+      <li className="cursor-pointer px-6 py-3 text-xl">
+        {icon}
         <a className="ml-3">{title}</a>
-      </Link>
-    </li>
+      </li>
+    </Link>
   );
 };
 
