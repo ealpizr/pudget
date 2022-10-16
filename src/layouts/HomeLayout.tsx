@@ -7,6 +7,7 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import Head from "next/head";
 import { ReactNode } from "react";
 import Sidebar from "../components/sidebar/Sidebar";
+import { trpc } from "../utils/trpc";
 
 const sidebarItems = [
   {
@@ -42,13 +43,19 @@ const sidebarItems = [
 ];
 
 const HomeLayout = ({ children }: { children: ReactNode }) => {
+  const user = trpc.user.getUser.useQuery();
+
+  if (!user.data) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <Head>
         <title>Pudget</title>
       </Head>
       <div className="flex h-full w-full">
-        <Sidebar items={sidebarItems} />
+        <Sidebar user={user.data} items={sidebarItems} />
         <main>{children}</main>
       </div>
     </>

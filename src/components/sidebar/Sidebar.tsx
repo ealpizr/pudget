@@ -1,14 +1,17 @@
 import IndeterminateCheckBoxOutlinedIcon from "@mui/icons-material/IndeterminateCheckBoxOutlined";
+import { inferProcedureOutput } from "@trpc/server";
 import Image from "next/image";
+import { AppRouter } from "../../server/trpc/router";
 import AvatarPlaceholder from "./avatar-placeholder.jpg";
 import SidebarButton from "./SidebarButton";
 import type { SidebarItem } from "./types";
 
 interface Props {
   items: SidebarItem[];
+  user: inferProcedureOutput<AppRouter["user"]["getUser"]>;
 }
 
-const Sidebar = ({ items }: Props) => {
+const Sidebar = ({ items, user }: Props) => {
   return (
     <section className="flex h-full w-full max-w-[300px] flex-col justify-between border-r border-r-gray-500 bg-pudgetDark text-white ">
       <div className="flex flex-1 flex-col items-center justify-center p-3">
@@ -26,7 +29,7 @@ const Sidebar = ({ items }: Props) => {
               alt="User Avatar"
             />
           </div>
-          <p className="text-xl font-bold">Username</p>
+          <p className="text-xl font-bold">{`${user.firstName} ${user.lastName}`}</p>
         </div>
       </div>
       <div>
