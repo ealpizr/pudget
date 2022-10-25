@@ -56,7 +56,7 @@ const HomeLayout = ({ children }: { children: ReactNode }) => {
       </Head>
       <div className="flex h-full w-full">
         <Sidebar user={user.data} items={sidebarItems} />
-        <main>{children}</main>
+        <main className="flex-1">{children}</main>
       </div>
     </>
   );
