@@ -1,18 +1,58 @@
 generator client {
-    provider = "prisma-client-js"
-    previewFeatures = ["referentialIntegrity"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-    provider = "mysql"
-    url      = env("DATABASE_URL")
-    referentialIntegrity = "prisma"
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
 }
 
 model User {
-    id            Int       @id @default(autoincrement())
-    firstName     String    @db.VarChar(255)
-    lastName      String    @db.VarChar(255)
-    email         String    @db.VarChar(255) @unique
-    password      String    @db.VarChar(255)
+  id        Int    @id @default(autoincrement())
+  firstName String @db.VarChar(255)
+  lastName  String @db.VarChar(255)
+  email     String @unique @db.VarChar(255)
+  password  String @db.VarChar(255)
+
+  transactions Transaction[]
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+model Transaction {
+  id             Int             @id @default(autoincrement())
+  userId         Int             @db.Int
+  description    String?         @db.VarChar(255)
+  oldBalance     Float           @db.Double
+  newBalance     Float           @db.Double
+  exchangeRateId Int             @db.Int
+  type           TransactionType
+  categoryId     Int             @db.Int
+  amount         Float           @db.Double
+  createdAt      DateTime        @db.DateTime
+  date           DateTime        @db.Date
+
+  User         User                @relation(fields: [userId], references: [id])
+  ExchangeRate ExchangeRate        @relation(fields: [exchangeRateId], references: [id])
+  Category     TransactionCategory @relation(fields: [categoryId], references: [id])
+}
+
+model TransactionCategory {
+  id          Int             @id @default(autoincrement())
+  name        String          @db.VarChar(30)
+  type        TransactionType
+  icon        String          @db.VarChar(30)
+  Transaction Transaction[]
+}
+
+model ExchangeRate {
+  id          Int           @id @default(autoincrement())
+  date        DateTime      @unique @db.Date
+  rate        Float         @db.Double
+  Transaction Transaction[]
 }
