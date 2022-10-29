@@ -6,7 +6,7 @@ const getExchangeRate = async (): Promise<number> => {
   type TResponse = {
     compra: string;
   };
-  const response = await fetch("http://apis.gometa.org/tdc/tdc.json");
+  const response = await fetch("https://tipodecambio.paginasweb.cr/api");
   const body = (await response.json()) as TResponse;
   return parseFloat(body.compra);
 };
