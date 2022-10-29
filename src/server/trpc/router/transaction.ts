@@ -58,12 +58,35 @@ export const transactionRouter = t.router({
     }),
 
   // Get Incomes
+  // A LOT OF DUPLICATED CODE FROM getExpenses
+  // REFACTOR
   getIncomes: authedProcedure.query(async ({ ctx }) => {
     const incomes = await prisma.transaction.findMany({
       where: {
         User: {
           id: ctx.session.user.id,
         },
+        type: "INCOME",
+      },
+      include: {
+        ExchangeRate: true,
+        Category: true,
+      },
+    });
+
+    return incomes;
+  }),
+
+  // Get Expenses
+  // A LOT OF DUPLICATED CODE FROM getIncomes
+  // REFACTOR
+  getExpenses: authedProcedure.query(async ({ ctx }) => {
+    const incomes = await prisma.transaction.findMany({
+      where: {
+        User: {
+          id: ctx.session.user.id,
+        },
+        type: "EXPENSE",
       },
       include: {
         ExchangeRate: true,

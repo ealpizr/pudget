@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-
 import { useState } from "react";
 import { SubmitHandler } from "react-hook-form";
 import NewTransactionModal, {
@@ -10,6 +9,9 @@ import EmptyTableIllustration from "../../components/tables/EmptyTableIllustrati
 import IncomesTable from "../../components/tables/IncomesTable";
 import HomeLayout from "../../layouts/HomeLayout";
 import { trpc } from "../../utils/trpc";
+
+// A LOT OF DUPLICATE CODE FROM expenses.tsx
+// NEEDS REFACTORING
 
 const IncomesPage: NextPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
