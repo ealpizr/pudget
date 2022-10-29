@@ -4,7 +4,7 @@ import { trpc } from "../../utils/trpc";
 
 // THIS PROBABLY DOES NOT WORK AS EXPECTED
 
-const BalanceWidget = () => {
+const BudgetWidget = () => {
   const getTransactionsBudgets =
     trpc.transaction.getTransactionsBudgets.useQuery();
   const user = trpc.user.getUser.useQuery();
@@ -68,4 +68,4 @@ const BalanceWidget = () => {
   );
 };
 
-export default BalanceWidget;
+export default BudgetWidget;
