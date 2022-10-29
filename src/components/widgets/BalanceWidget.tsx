@@ -2,60 +2,34 @@ import { MoonLoader } from "react-spinners";
 import { Area, AreaChart, ResponsiveContainer } from "recharts";
 import { trpc } from "../../utils/trpc";
 
+// THIS PROBABLY DOES NOT WORK AS EXPECTED
+
 const BalanceWidget = () => {
-  const data = [
-    {
-      name: "Page A",
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: "Page B",
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: "Page C",
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: "Page D",
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: "Page E",
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: "Page F",
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: "Page G",
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
+  const getTransactionsBudgets =
+    trpc.transaction.getTransactionsBudgets.useQuery();
+  const user = trpc.user.getUser.useQuery();
+
+  let data: { name: string; pv: number }[] = [
+    { name: "A", pv: 1 },
+    { name: "B", pv: 1 },
   ];
 
-  const user = trpc.user.getUser.useQuery();
+  if (getTransactionsBudgets.data && getTransactionsBudgets.data.length !== 0) {
+    data = [];
+    getTransactionsBudgets.data.map((transaction, idx) => {
+      data.push({
+        name: idx.toString(),
+        pv: transaction.newBudget,
+      });
+    });
+  }
 
   return (
     <div className="flex h-full w-full rounded-md border border-gray-500 p-3">
       <div className="h-full w-3 rounded-full bg-gradient-to-b from-[#007EFF] to-[#00C657]"></div>
       <div className="flex flex-1 flex-col justify-center gap-3 p-2 pl-4">
         <p className="justify-self-start text-lg">Balance</p>
-        {!user.data ? (
+        {!user.data || !getTransactionsBudgets.data ? (
           <div className="flex flex-1 items-center justify-center">
             <MoonLoader />
           </div>

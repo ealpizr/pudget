@@ -120,6 +120,26 @@ export const transactionRouter = t.router({
     return incomes;
   }),
 
+  // Get Transactions Budget
+  // THIS PROBABLY DOES NOT WORK AS EXPECTED
+  getTransactionsBudgets: authedProcedure.query(async ({ ctx }) => {
+    const incomes = await prisma.transaction.findMany({
+      where: {
+        User: {
+          id: ctx.session.user.id,
+        },
+      },
+      orderBy: {
+        date: "asc",
+      },
+      select: {
+        newBudget: true,
+      },
+    });
+
+    return incomes;
+  }),
+
   // Get Exchange Rate
   getExchangeRate: t.procedure.query(async () => {
     const date = new Date(new Date().toISOString().split("T")[0] || "");
