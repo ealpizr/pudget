@@ -96,4 +96,21 @@ export const transactionRouter = t.router({
 
     return incomes;
   }),
+
+  // Get Exchange Rate
+  getExchangeRate: t.procedure.query(async () => {
+    const date = new Date(new Date().toISOString().split("T")[0] || "");
+    const exchangeRate = await prisma.exchangeRate.upsert({
+      where: {
+        date,
+      },
+      update: {},
+      create: {
+        date,
+        rate: await getExchangeRate(),
+      },
+    });
+
+    return { ...exchangeRate };
+  }),
 });
