@@ -5,40 +5,20 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import { ExchangeRate, Transaction, TransactionCategory } from "@prisma/client";
 
-function createData(
-  type: string,
-  description: string,
-  date: string,
-  ex: number,
-  amount: number
-) {
-  return { type, description, date, ex, amount };
-}
+type Income = Transaction & {
+  ExchangeRate: ExchangeRate;
+  Category: TransactionCategory;
+};
 
-const date = new Date(Date.UTC(2012, 11, 20, 3, 0, 0)).toDateString();
-
-const rows = [
-  createData(
-    "One-Time",
-    "Transaction 1",
-    date,
-    500,
-    100
-  ),
-  createData("Monthly", "Transaction 2", date, 500, 100),
-  createData("Daily", "Transaction 3", date, 500, 100),
-  createData("One-Time", "Transaction 4", date, 500, 100),
-  createData("One-Time", "Transaction 5", date, 500, 100),
-];
-
-const IncomesTable = () => {
+const IncomesTable = ({ incomes }: { incomes: Income[] | undefined }) => {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Type</TableCell>
+            <TableCell>Category</TableCell>
             <TableCell>Description</TableCell>
             <TableCell>Date</TableCell>
             <TableCell align="right">Exchange rate</TableCell>
@@ -46,19 +26,21 @@ const IncomesTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {incomes?.map((income) => (
             <TableRow
-              key={row.description}
+              key={income.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell>{row.type}</TableCell>
+              <TableCell>{income.Category.name}</TableCell>
 
               <TableCell component="th" scope="row">
-                {row.description}
+                {income.description}
               </TableCell>
-              <TableCell>{row.date}</TableCell>
-              <TableCell align="right">{row.ex}</TableCell>
-              <TableCell align="right">{row.amount}</TableCell>
+              <TableCell>
+                {income.date.toISOString().substring(0, 10)}
+              </TableCell>
+              <TableCell align="right">{income.ExchangeRate.rate}</TableCell>
+              <TableCell align="right">{income.amount}</TableCell>
             </TableRow>
           ))}
         </TableBody>
