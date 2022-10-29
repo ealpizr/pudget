@@ -52,6 +52,18 @@ export const transactionRouter = t.router({
         },
       });
 
+      await prisma.user.update({
+        where: {
+          id: ctx.session.user.id,
+        },
+        data: {
+          budget:
+            input.type === "INCOME"
+              ? { increment: input.amount }
+              : { decrement: input.amount },
+        },
+      });
+
       return {
         ...transaction,
       };
