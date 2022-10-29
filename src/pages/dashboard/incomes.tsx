@@ -1,21 +1,37 @@
 import type { NextPage } from "next";
-import Image from "next/image";
+
 import { useState } from "react";
-import NewIncomeModal from "../../components/modals/NewIncomeModal";
+import { SubmitHandler } from "react-hook-form";
+import NewTransactionModal, {
+  NewTransactionModalInputs,
+  TransactionTypes,
+} from "../../components/modals/NewTransactionModal";
+import EmptyTableIllustration from "../../components/tables/EmptyTableIllustration";
 import IncomesTable from "../../components/tables/IncomesTable";
 import HomeLayout from "../../layouts/HomeLayout";
 import { trpc } from "../../utils/trpc";
-import NoDataIllustration from "./no-data.svg";
 
 const IncomesPage: NextPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const getIncomes = trpc.transaction.getIncomes.useQuery();
+  const createTransaction = trpc.transaction.createTransaction.useMutation();
 
   const closeModal = async (refetch?: boolean) => {
     if (refetch) {
       await getIncomes.refetch();
     }
     setIsModalOpen(false);
+  };
+
+  const onSubmit: SubmitHandler<NewTransactionModalInputs> = async (data) => {
+    await createTransaction.mutateAsync({
+      description: data.description,
+      type: "INCOME",
+      categoryId: 1,
+      amount: data.amount,
+      date: data.date,
+    });
+    await closeModal(true);
   };
 
   return (
@@ -40,27 +56,20 @@ const IncomesPage: NextPage = () => {
               {getIncomes.data.length > 0 ? (
                 <IncomesTable incomes={getIncomes.data} />
               ) : (
-                <NoIncomesIllustration />
+                <EmptyTableIllustration />
               )}
             </>
           )}
         </div>
-        {isModalOpen && <NewIncomeModal closeModal={closeModal} />}
+        {isModalOpen && (
+          <NewTransactionModal
+            type={TransactionTypes.INCOME}
+            onSubmit={onSubmit}
+            closeModal={closeModal}
+          />
+        )}
       </div>
     </HomeLayout>
-  );
-};
-
-const NoIncomesIllustration = () => {
-  return (
-    <div className="flex h-full w-full flex-col items-center justify-center gap-10">
-      <div className="max-w-[300px]">
-        <Image src={NoDataIllustration} alt="Illustration" />
-      </div>
-      <h3 className="text-center text-3xl font-bold">
-        You don&apos;t have any incomes
-      </h3>
-    </div>
   );
 };
 
