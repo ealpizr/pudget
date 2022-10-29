@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { transactionSchema } from "../../../utils/schemas";
 import { prisma } from "../../db/client";
 import { authedProcedure, t } from "../trpc";
@@ -19,6 +20,19 @@ export const transactionRouter = t.router({
       const today = new Date();
       const date = new Date(today.toISOString().split("T")[0] || "");
 
+      const user = await prisma.user.findUnique({
+        where: { id: ctx.session.user.id },
+        select: {
+          budget: true,
+        },
+      });
+
+      if (!user) {
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+      }
+      const newBudget: number =
+        user.budget + (input.type === "INCOME" ? input.amount : -input.amount);
+
       const transaction = await prisma.transaction.create({
         data: {
           User: {
@@ -27,8 +41,8 @@ export const transactionRouter = t.router({
             },
           },
           description: input.description,
-          oldBalance: 0,
-          newBalance: 0,
+          oldBudget: user.budget,
+          newBudget: newBudget,
           ExchangeRate: {
             connectOrCreate: {
               where: {
@@ -57,10 +71,7 @@ export const transactionRouter = t.router({
           id: ctx.session.user.id,
         },
         data: {
-          budget:
-            input.type === "INCOME"
-              ? { increment: input.amount }
-              : { decrement: input.amount },
+          budget: newBudget,
         },
       });
 

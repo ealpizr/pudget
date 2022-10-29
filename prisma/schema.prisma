@@ -29,14 +29,14 @@ model Transaction {
   id             Int             @id @default(autoincrement())
   userId         Int             @db.Int
   description    String?         @db.VarChar(255)
-  oldBalance     Float           @db.Double
-  newBalance     Float           @db.Double
+  oldBudget      Float           @db.Double
+  newBudget      Float           @db.Double
   exchangeRateId Int             @db.Int
   type           TransactionType
   categoryId     Int             @db.Int
   amount         Float           @db.Double
-  createdAt      DateTime        @db.DateTime
   date           DateTime        @db.Date
+  createdAt      DateTime        @db.DateTime
 
   User         User                @relation(fields: [userId], references: [id])
   ExchangeRate ExchangeRate        @relation(fields: [exchangeRateId], references: [id])
