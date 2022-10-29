@@ -91,6 +91,9 @@ export const transactionRouter = t.router({
         },
         type: "INCOME",
       },
+      orderBy: {
+        date: "desc",
+      },
       include: {
         ExchangeRate: true,
         Category: true,
@@ -110,6 +113,9 @@ export const transactionRouter = t.router({
           id: ctx.session.user.id,
         },
         type: "EXPENSE",
+      },
+      orderBy: {
+        date: "desc",
       },
       include: {
         ExchangeRate: true,
