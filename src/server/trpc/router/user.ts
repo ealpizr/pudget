@@ -9,6 +9,7 @@ export const userRouter = t.router({
         email: true,
         firstName: true,
         lastName: true,
+        budget: true,
       },
     });
     return {
