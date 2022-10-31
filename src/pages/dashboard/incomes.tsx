@@ -15,12 +15,14 @@ import { trpc } from "../../utils/trpc";
 
 const IncomesPage: NextPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const getIncomes = trpc.transaction.getIncomes.useQuery();
+  const incomes = trpc.transaction.getTransactions.useQuery({
+    type: "INCOME",
+  });
   const createTransaction = trpc.transaction.createTransaction.useMutation();
 
   const closeModal = async (refetch?: boolean) => {
     if (refetch) {
-      await getIncomes.refetch();
+      await incomes.refetch();
     }
     setIsModalOpen(false);
   };
@@ -51,12 +53,12 @@ const IncomesPage: NextPage = () => {
           </button>
         </div>
         <div className="flex h-full">
-          {!getIncomes.data || getIncomes.isLoading ? (
+          {!incomes.data || incomes.isLoading ? (
             <p>Loading incomes...</p>
           ) : (
             <>
-              {getIncomes.data.length > 0 ? (
-                <IncomesTable incomes={getIncomes.data} />
+              {incomes.data.length > 0 ? (
+                <IncomesTable incomes={incomes.data} />
               ) : (
                 <EmptyTableIllustration />
               )}

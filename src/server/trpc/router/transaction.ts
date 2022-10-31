@@ -1,5 +1,6 @@
 import { TRPCError } from "@trpc/server";
-import { transactionSchema } from "../../../utils/schemas";
+import { z } from "zod";
+import { transactionSchema, TransactionType } from "../../../utils/schemas";
 import { prisma } from "../../db/client";
 import { authedProcedure, t } from "../trpc";
 
@@ -80,51 +81,32 @@ export const transactionRouter = t.router({
       };
     }),
 
-  // Get Incomes
-  // A LOT OF DUPLICATED CODE FROM getExpenses
-  // REFACTOR
-  getIncomes: authedProcedure.query(async ({ ctx }) => {
-    const incomes = await prisma.transaction.findMany({
-      where: {
-        User: {
-          id: ctx.session.user.id,
+  // Get Transactions
+  getTransactions: authedProcedure
+    .input(
+      z.object({
+        type: TransactionType.optional(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const transactions = await prisma.transaction.findMany({
+        where: {
+          User: {
+            id: ctx.session.user.id,
+          },
+          type: input.type,
         },
-        type: "INCOME",
-      },
-      orderBy: {
-        date: "desc",
-      },
-      include: {
-        ExchangeRate: true,
-        Category: true,
-      },
-    });
-
-    return incomes;
-  }),
-
-  // Get Expenses
-  // A LOT OF DUPLICATED CODE FROM getIncomes
-  // REFACTOR
-  getExpenses: authedProcedure.query(async ({ ctx }) => {
-    const incomes = await prisma.transaction.findMany({
-      where: {
-        User: {
-          id: ctx.session.user.id,
+        include: {
+          Category: true,
+          ExchangeRate: true,
         },
-        type: "EXPENSE",
-      },
-      orderBy: {
-        date: "desc",
-      },
-      include: {
-        ExchangeRate: true,
-        Category: true,
-      },
-    });
+        orderBy: {
+          date: "desc",
+        },
+      });
 
-    return incomes;
-  }),
+      return transactions;
+    }),
 
   // Get Transactions Budget
   // THIS PROBABLY DOES NOT WORK AS EXPECTED
