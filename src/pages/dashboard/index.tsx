@@ -8,7 +8,7 @@ import HomeLayout from "../../layouts/HomeLayout";
 const DashboardPage: NextPage = () => {
   return (
     <HomeLayout>
-      <div className="flex h-full w-full flex-col gap-4 overflow-y-scroll p-4 md:flex-row">
+      <div className="flex h-full w-full flex-col gap-4 p-4 md:flex-row">
         <div className="flex flex-1 flex-col gap-5">
           <div className="flex-1">
             <BudgetWidget />

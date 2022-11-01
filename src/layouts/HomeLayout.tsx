@@ -56,7 +56,7 @@ const HomeLayout = ({ children }: { children: ReactNode }) => {
       </Head>
       <div className="flex h-full w-full flex-nowrap">
         <Sidebar user={user.data} items={sidebarItems} />
-        <main className="flex-1 overflow-scroll">{children}</main>
+        <main className="flex-1 overflow-auto">{children}</main>
       </div>
     </>
   );
