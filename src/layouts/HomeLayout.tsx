@@ -54,9 +54,9 @@ const HomeLayout = ({ children }: { children: ReactNode }) => {
       <Head>
         <title>Pudget</title>
       </Head>
-      <div className="flex h-full w-full">
+      <div className="flex h-full w-full flex-nowrap">
         <Sidebar user={user.data} items={sidebarItems} />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 overflow-scroll">{children}</main>
       </div>
     </>
   );

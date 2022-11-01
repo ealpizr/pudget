@@ -6,12 +6,34 @@ import NewTransactionModal, {
   TransactionTypes,
 } from "../../components/modals/NewTransactionModal";
 import EmptyTableIllustration from "../../components/tables/EmptyTableIllustration";
-import IncomesTable from "../../components/tables/IncomesTable";
+import TransactionTable, {
+  Header,
+} from "../../components/tables/TransactionTable";
 import HomeLayout from "../../layouts/HomeLayout";
 import { trpc } from "../../utils/trpc";
 
 // A LOT OF DUPLICATE CODE FROM incomes.tsx
 // NEEDS REFACTORING
+
+const headers: Header[] = [
+  {
+    name: "Category",
+  },
+  {
+    name: "Description",
+  },
+  {
+    name: "Date",
+  },
+  {
+    name: "Exchange rate",
+    style: { align: "right" },
+  },
+  {
+    name: "Amount",
+    style: { align: "right" },
+  },
+];
 
 const ExpensesPage: NextPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,7 +80,10 @@ const ExpensesPage: NextPage = () => {
           ) : (
             <>
               {expenses.data.length > 0 ? (
-                <IncomesTable incomes={expenses.data} />
+                <TransactionTable
+                  headers={headers}
+                  transactions={expenses.data}
+                />
               ) : (
                 <EmptyTableIllustration />
               )}
