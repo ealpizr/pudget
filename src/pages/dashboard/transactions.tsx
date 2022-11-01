@@ -50,10 +50,6 @@ const headers: Header[] = [
 const TransactionsPage: NextPage = () => {
   const transactions = trpc.transaction.getTransactions.useQuery({});
 
-  if (transactions.data) {
-    console.log(transactions.data);
-  }
-
   return (
     <HomeLayout>
       <div className="flex h-full w-full flex-col gap-3 p-6">
