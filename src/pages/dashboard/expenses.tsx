@@ -62,9 +62,9 @@ const ExpensesPage: NextPage = () => {
 
   return (
     <HomeLayout>
-      <div className="relative flex h-full w-full flex-col gap-3 p-6">
+      <div className="relative flex h-full w-full flex-col gap-3 p-2 md:p-6">
         <div className="flex items-center justify-between p-2">
-          <h3 className="text-2xl font-bold">Expenses</h3>
+          <h3 className="text-xl font-bold md:text-2xl">Expenses</h3>
           <button
             onClick={() => {
               setIsModalOpen(true);

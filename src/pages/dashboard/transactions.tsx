@@ -52,8 +52,8 @@ const TransactionsPage: NextPage = () => {
 
   return (
     <HomeLayout>
-      <div className="flex h-full w-full flex-col gap-3 p-6">
-        <h1 className="p-2 text-2xl font-bold">Transactions</h1>
+      <div className="flex h-full w-full flex-col gap-3 p-2 md:p-6">
+        <h1 className="p-2 text-xl font-bold md:text-2xl">Transactions</h1>
         <div className="flex h-full w-full">
           {!transactions.data || transactions.isLoading ? (
             <p>Loading expenses...</p>

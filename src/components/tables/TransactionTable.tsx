@@ -27,6 +27,8 @@ interface Props {
   showFullTransaction?: boolean;
 }
 
+const tableCellStyle = { whiteSpace: "nowrap" };
+
 const TransactionTable = ({
   headers,
   transactions,
@@ -37,7 +39,7 @@ const TransactionTable = ({
       component={Paper}
       sx={{ minWidth: "100%", minHeight: "100%" }}
     >
-      <Table stickyHeader>
+      <Table>
         <TableHead>
           <TableRow>
             {headers.map((h) => {
@@ -53,23 +55,31 @@ const TransactionTable = ({
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 {showFullTransaction && (
-                  <TableCell>{transaction.type}</TableCell>
+                  <TableCell sx={tableCellStyle}>{transaction.type}</TableCell>
                 )}
-                <TableCell>{transaction.Category.name}</TableCell>
-                <TableCell>{transaction.description}</TableCell>
-                <TableCell>
+                <TableCell sx={tableCellStyle}>
+                  {transaction.Category.name}
+                </TableCell>
+                <TableCell sx={tableCellStyle}>
+                  {transaction.description}
+                </TableCell>
+                <TableCell sx={tableCellStyle}>
                   {transaction.date.toISOString().substring(0, 10)}
                 </TableCell>
                 {showFullTransaction && (
-                  <TableCell align="right">{transaction.oldBudget}</TableCell>
+                  <TableCell sx={tableCellStyle} align="right">
+                    {transaction.oldBudget}
+                  </TableCell>
                 )}
                 {showFullTransaction && (
-                  <TableCell align="right">{transaction.newBudget}</TableCell>
+                  <TableCell sx={tableCellStyle} align="right">
+                    {transaction.newBudget}
+                  </TableCell>
                 )}
-                <TableCell align="right">
+                <TableCell sx={tableCellStyle} align="right">
                   {transaction.ExchangeRate.rate}
                 </TableCell>
-                <TableCell align="right">{`${
+                <TableCell sx={tableCellStyle} align="right">{`${
                   transaction.type === "EXPENSE" ? "-" : ""
                 }${transaction.amount}`}</TableCell>
               </TableRow>
