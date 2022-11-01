@@ -1,12 +1,12 @@
 import Link from "next/link";
 import type { SidebarItem } from "./types";
 
-const SidebarButton = ({ href, title, icon }: SidebarItem) => {
+const SidebarButton = ({ href, title, icon, collapsed }: SidebarItem) => {
   return (
     <Link href={href}>
-      <li className="cursor-pointer px-6 py-3 text-xl">
+      <li className="cursor-pointer text-xl">
         {icon}
-        <a className="ml-3">{title}</a>
+        <a className={`${collapsed ? "hidden " : ""}ml-3`}>{title}</a>
       </li>
     </Link>
   );

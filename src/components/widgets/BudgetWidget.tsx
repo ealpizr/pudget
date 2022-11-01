@@ -25,9 +25,9 @@ const BudgetWidget = () => {
   }
 
   return (
-    <div className="flex h-full w-full rounded-md border border-gray-500 p-3">
-      <div className="h-full w-3 rounded-full bg-gradient-to-b from-[#007EFF] to-[#00C657]"></div>
-      <div className="flex flex-1 flex-col justify-center gap-3 p-2 pl-4">
+    <div className="flex h-full w-full flex-row-reverse rounded-md border border-gray-500 p-3 md:flex-row">
+      <div className="h-full w-2 rounded-full bg-gradient-to-b from-[#007EFF] to-[#00C657]"></div>
+      <div className="flex flex-1 flex-col justify-center gap-3 p-2">
         <p className="justify-self-start text-lg">Balance</p>
         {!user.data || !getTransactionsBudgets.data ? (
           <div className="flex flex-1 items-center justify-center">
@@ -35,14 +35,18 @@ const BudgetWidget = () => {
           </div>
         ) : (
           <>
-            <p className="mb-2 text-3xl font-bold">
+            <p className="mb-2 text-2xl font-bold md:text-3xl">
               ₡{" "}
               {user.data.budget?.toLocaleString("en-US", {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               })}
             </p>
-            <ResponsiveContainer className="flex-1">
+            {/*
+            width="99%" aspect={3} came from
+            https://stackoverflow.com/questions/50891591/recharts-responsive-container-does-not-resize-correctly-in-flexbox
+            */}
+            <ResponsiveContainer className="flex-1" width="99%" aspect={3}>
               <AreaChart data={data}>
                 <defs>
                   <linearGradient id="areaColor" x1="0" y1="0" x2="0" y2="1">
