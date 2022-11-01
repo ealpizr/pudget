@@ -1,3 +1,4 @@
+import { Paper } from "@mui/material";
 import { MoonLoader } from "react-spinners";
 import { Area, AreaChart, ResponsiveContainer } from "recharts";
 import { trpc } from "../../utils/trpc";
@@ -25,7 +26,7 @@ const BudgetWidget = () => {
   }
 
   return (
-    <div className="flex h-full w-full flex-row-reverse rounded-md border border-gray-500 p-3 md:flex-row">
+    <Paper className="flex h-full w-full flex-row-reverse p-3 md:flex-row">
       <div className="h-full w-2 rounded-full bg-gradient-to-b from-[#007EFF] to-[#00C657]"></div>
       <div className="flex flex-1 flex-col justify-center gap-3 p-2">
         <p className="justify-self-start text-lg">Balance</p>
@@ -68,7 +69,7 @@ const BudgetWidget = () => {
           </>
         )}
       </div>
-    </div>
+    </Paper>
   );
 };
 
