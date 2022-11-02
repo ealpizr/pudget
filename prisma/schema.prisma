@@ -17,12 +17,14 @@ model User {
   password  String @db.VarChar(255)
   budget    Float  @db.Double
 
-  transactions Transaction[]
+  transactions        Transaction[]
+  TransactionCategory TransactionCategory[]
 }
 
 enum TransactionType {
   INCOME
   EXPENSE
+  ALL
 }
 
 model Transaction {
@@ -45,9 +47,12 @@ model Transaction {
 
 model TransactionCategory {
   id          Int             @id @default(autoincrement())
+  userId      Int?
   name        String          @db.VarChar(30)
   type        TransactionType
   icon        String          @db.VarChar(30)
+  global      Boolean
+  User        User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
   Transaction Transaction[]
 }
 

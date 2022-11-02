@@ -1,3 +1,4 @@
+import CategoryIcon from "@mui/icons-material/Category";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
@@ -14,6 +15,11 @@ const sidebarItems = [
     href: "/dashboard",
     title: "Dashboard",
     icon: <DashboardIcon />,
+  },
+  {
+    href: "/dashboard/categories",
+    title: "Categories",
+    icon: <CategoryIcon />,
   },
   {
     href: "/dashboard/transactions",
