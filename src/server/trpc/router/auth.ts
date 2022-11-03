@@ -11,7 +11,7 @@ export const authRouter = t.router({
   }),
   signUp: t.procedure.input(signUpDataSchema).mutation(async ({ input }) => {
     const user = await prisma.user.create({
-      data: input,
+      data: { ...input, budget: 0 },
     });
     return {
       ...user,
