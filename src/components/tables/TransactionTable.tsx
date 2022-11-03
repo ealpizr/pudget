@@ -42,8 +42,12 @@ const TransactionTable = ({
       <Table>
         <TableHead>
           <TableRow>
-            {headers.map((h) => {
-              return <TableCell {...h.style}>{h.name}</TableCell>;
+            {headers.map((h, i) => {
+              return (
+                <TableCell key={i} {...h.style}>
+                  {h.name}
+                </TableCell>
+              );
             })}
           </TableRow>
         </TableHead>
