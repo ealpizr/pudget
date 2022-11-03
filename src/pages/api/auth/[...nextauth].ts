@@ -11,7 +11,7 @@ export const authOptions: NextAuthOptions = {
     maxAge: 3 * 24 * 60 * 60,
   },
   callbacks: {
-    session({ session, token }) {
+    async session({ session, token }) {
       if (session.user && token.sub) {
         session.user.id = Number.parseInt(token.sub);
       }
