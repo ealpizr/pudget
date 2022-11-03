@@ -1,3 +1,4 @@
+import { TransactionType } from "@prisma/client";
 import { z } from "zod";
 import { prisma } from "../../db/client";
 import { authedProcedure, t } from "../trpc";
@@ -10,6 +11,15 @@ export const categoryRouter = t.router({
   getCategories: authedProcedure
     .input(CategoryType)
     .query(async ({ ctx, input }) => {
+      let q: { type: TransactionType } | { OR: { type: TransactionType }[] } = {
+        type: input,
+      };
+      if (input == "ALL") {
+        q = {
+          OR: [{ type: "INCOME" }, { type: "EXPENSE" }],
+        };
+      }
+
       const categories = await prisma.transactionCategory.findMany({
         where: {
           OR: [
@@ -22,7 +32,7 @@ export const categoryRouter = t.router({
           ],
           AND: [
             {
-              OR: [{ type: "ALL" }, { type: input }],
+              OR: [{ type: "ALL" }, q],
             },
           ],
         },
