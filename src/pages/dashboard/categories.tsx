@@ -24,7 +24,7 @@ const CategoriesPage = () => {
     await createCategory.mutateAsync({
       name: data.name,
       type: data.type,
-      icon: "Category",
+      icon: data.icon,
     });
     await closeModal(true);
   };
