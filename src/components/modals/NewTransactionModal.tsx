@@ -1,11 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import PaymentsIcon from "@mui/icons-material/Payments";
-import RedeemIcon from "@mui/icons-material/Redeem";
-import WorkIcon from "@mui/icons-material/Work";
+import * as Icons from "@mui/icons-material";
 import { useEffect, useRef } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm, UseFormSetValue } from "react-hook-form";
 import { MoonLoader } from "react-spinners";
 import { z } from "zod";
+import { trpc } from "../../utils/trpc";
 import ModalBody from "./layout/ModalBody";
 import ModalContainer from "./layout/ModalContainer";
 import ModalFooter from "./layout/ModalFooter";
@@ -26,6 +25,7 @@ const schema = z.object({
   description: z.string().nullable(),
   amount: z.number(),
   date: z.date(),
+  categoryId: z.number(),
 });
 
 export type NewTransactionModalInputs = z.infer<typeof schema>;
@@ -42,6 +42,10 @@ const NewTransactionModal = ({ type, closeModal, onSubmit }: Props) => {
     // @ts-expect-error: RHF need a string to set default date
     setValue("date", new Date().toISOString().substring(0, 10));
   }, [setValue]);
+
+  const categories = trpc.category.getCategories.useQuery(
+    type === TransactionTypes.INCOME ? "INCOME" : "EXPENSE"
+  );
 
   return (
     <ModalContainer closeModal={closeModal}>
@@ -84,10 +88,25 @@ const NewTransactionModal = ({ type, closeModal, onSubmit }: Props) => {
           </div>
         </div>
 
-        <ul className="flex items-center justify-center gap-3">
-          <CategoryItem icon={<PaymentsIcon />} name="Other" selected />
-          <CategoryItem icon={<WorkIcon />} name="Salary" />
-          <CategoryItem icon={<RedeemIcon />} name="Allowance" />
+        <p className="mb-1 text-sm">Category</p>
+        <input
+          hidden
+          type="number"
+          {...register("categoryId", { valueAsNumber: true })}
+        />
+        <ul className="flex max-h-28 flex-wrap items-center justify-center gap-3 overflow-y-auto px-2">
+          {categories.data?.map((c, i) => {
+            return (
+              <CategoryItem
+                key={i}
+                icon={c.icon}
+                name={c.name}
+                setValue={setValue}
+                id={c.id}
+                selected={i === 0}
+              />
+            );
+          })}
         </ul>
       </ModalBody>
       <ModalFooter>
@@ -106,10 +125,19 @@ const CategoryItem = ({
   icon,
   name,
   selected,
+  setValue,
+  id,
 }: {
-  icon: JSX.Element;
+  icon: string;
   name: string;
   selected?: boolean;
+  setValue: UseFormSetValue<{
+    description: string | null;
+    amount: number;
+    date: Date;
+    categoryId: number;
+  }>;
+  id: number;
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
@@ -117,8 +145,16 @@ const CategoryItem = ({
       inputRef.current.checked = true;
     }
   }, [selected]);
+
+  const I = Icons[icon as keyof typeof Icons];
+
   return (
-    <li className="flex-1">
+    <li
+      className="flex-1"
+      onClick={() => {
+        setValue("categoryId", id);
+      }}
+    >
       <input
         type="radio"
         id={`category${name}`}
@@ -130,8 +166,8 @@ const CategoryItem = ({
         htmlFor={`category${name}`}
         className="flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-gray-200 p-5 text-gray-500 hover:bg-gray-100 hover:text-gray-600 peer-checked:border-pudgetYellow peer-checked:text-pudgetYellow"
       >
-        {icon}
-        <p>{name}</p>
+        <I />
+        <p className="text-center">{name}</p>
       </label>
     </li>
   );

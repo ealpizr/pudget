@@ -10,7 +10,7 @@ import { trpc } from "../../utils/trpc";
 
 const CategoriesPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const categories = trpc.category.getCategories.useQuery();
+  const categories = trpc.category.getCategories.useQuery("ALL");
   const createCategory = trpc.category.createCategory.useMutation();
 
   const closeModal = async (refetch?: boolean) => {

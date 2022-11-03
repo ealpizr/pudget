@@ -53,7 +53,7 @@ const IncomesPage: NextPage = () => {
     await createTransaction.mutateAsync({
       description: data.description,
       type: "INCOME",
-      categoryId: 1,
+      categoryId: data.categoryId,
       amount: data.amount,
       date: data.date,
     });

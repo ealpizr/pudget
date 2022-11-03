@@ -7,24 +7,31 @@ type CategoryType = z.infer<typeof CategoryType>;
 
 export const categoryRouter = t.router({
   // Get a user's categories
-  getCategories: authedProcedure.query(async ({ ctx }) => {
-    const categories = await prisma.transactionCategory.findMany({
-      where: {
-        OR: [
-          {
-            User: {
-              id: ctx.session.user.id,
+  getCategories: authedProcedure
+    .input(CategoryType)
+    .query(async ({ ctx, input }) => {
+      const categories = await prisma.transactionCategory.findMany({
+        where: {
+          OR: [
+            {
+              User: {
+                id: ctx.session.user.id,
+              },
             },
-          },
-          { global: true },
-        ],
-      },
-      orderBy: {
-        type: "desc",
-      },
-    });
-    return categories;
-  }),
+            { global: true },
+          ],
+          AND: [
+            {
+              OR: [{ type: "ALL" }, { type: input }],
+            },
+          ],
+        },
+        orderBy: {
+          type: "desc",
+        },
+      });
+      return categories;
+    }),
 
   // Create a category
   createCategory: authedProcedure
