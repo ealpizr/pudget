@@ -13,8 +13,8 @@ const RecentTransactionsWidget = () => {
         <MoonLoader />
       ) : (
         <>
-          {transactions.data.map((t) => (
-            <RecentTransactionItem transaction={t} />
+          {transactions.data.map((t, i) => (
+            <RecentTransactionItem key={i} transaction={t} />
           ))}
         </>
       )}

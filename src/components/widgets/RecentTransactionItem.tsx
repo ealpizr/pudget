@@ -1,4 +1,4 @@
-import DirectionsBusFilledIcon from "@mui/icons-material/DirectionsBusFilled";
+import * as Icons from "@mui/icons-material";
 import { ExchangeRate, Transaction, TransactionCategory } from "@prisma/client";
 
 type FullTransaction = Transaction & {
@@ -11,9 +11,11 @@ interface Props {
 }
 
 const RecentTransactionItem = ({ transaction }: Props) => {
+  const I = Icons[transaction.Category.icon as keyof typeof Icons];
+
   return (
     <div className="flex items-center">
-      <DirectionsBusFilledIcon />
+      <I />
       <div className="ml-3 flex flex-1 flex-col">
         <p>{transaction.Category.name}</p>
         <p>
@@ -25,11 +27,11 @@ const RecentTransactionItem = ({ transaction }: Props) => {
         </p>
       </div>
       <p
-        className={`text-${
-          transaction.type === "EXPENSE" ? "red" : "green"
-        }-500`}
+        className={`${
+          transaction.type == "EXPENSE" ? "text-red-500" : "text-green-500"
+        }`}
       >{`${
-        transaction.type === "EXPENSE" ? "-" : ""
+        transaction.type == "EXPENSE" ? "-" : ""
       }₡${transaction.amount.toLocaleString("en-US", {
         maximumFractionDigits: 2,
       })}`}</p>
