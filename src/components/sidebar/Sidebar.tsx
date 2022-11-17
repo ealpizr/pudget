@@ -19,51 +19,53 @@ const Sidebar = ({ items, user }: Props) => {
     <section
       className={`${
         collapsed ? "max-w-[60px] " : "absolute z-10 max-w-[250px] md:static "
-      }flex h-full w-full flex-col justify-between border-r border-r-gray-500 bg-pudgetDark text-white`}
+      }flex h-full w-full flex-col justify-between border-r border-r-gray-500 bg-pudgetDark p-3 text-white`}
     >
-      <div className="flex flex-1 flex-col items-center justify-center p-3">
-        <div
+      {/* PUDGET */}
+      <div
+        className={`${
+          collapsed ? "justify-center " : "justify-between "
+        }flex w-full items-center`}
+      >
+        <p
           className={`${
-            collapsed ? "justify-center " : "justify-between "
-          }flex w-full items-center`}
+            collapsed ? "hidden " : ""
+          }font-pudgetDisplay text-3xl text-yellow-400`}
         >
-          <p
-            className={`${
-              collapsed ? "hidden " : ""
-            }font-pudgetDisplay text-3xl text-yellow-400`}
-          >
-            Pudget
-          </p>
-          <p
-            onClick={toggleCollapsed}
-            className={`${
-              collapsed ? "" : "hidden "
-            }cursor-pointer font-pudgetDisplay text-3xl text-yellow-400`}
-          >
-            P
-          </p>
-          <button
-            onClick={toggleCollapsed}
-            className={`${collapsed ? "hidden " : ""}`}
-          >
-            <IndeterminateCheckBoxOutlinedIcon />
-          </button>
-        </div>
-        <div className="flex flex-1 flex-col items-center justify-center gap-2">
-          <div className="max-w-[100px]">
-            <Image
-              className="rounded-full"
-              src={AvatarPlaceholder}
-              alt="User Avatar"
-            />
-          </div>
-          <p
-            className={`${collapsed ? "hidden " : ""}text-xl font-bold`}
-          >{`${user.firstName} ${user.lastName}`}</p>
-        </div>
+          Pudget
+        </p>
+        <p
+          onClick={toggleCollapsed}
+          className={`${
+            collapsed ? "" : "hidden "
+          }cursor-pointer font-pudgetDisplay text-3xl text-yellow-400`}
+        >
+          P
+        </p>
+        <button
+          onClick={toggleCollapsed}
+          className={`${collapsed ? "hidden " : ""}`}
+        >
+          <IndeterminateCheckBoxOutlinedIcon />
+        </button>
       </div>
-      <div className="flex">
-        <div className="flex-1"></div>
+
+      {/* USER */}
+      <div className="flex flex-col items-center justify-center gap-2">
+        <div className="max-w-[80px]">
+          <Image
+            className="rounded-full"
+            src={AvatarPlaceholder}
+            alt="User Avatar"
+          />
+        </div>
+        <p
+          className={`${collapsed ? "hidden " : ""}text-xl font-bold`}
+        >{`${user.firstName} ${user.lastName}`}</p>
+      </div>
+
+      {/* MENU */}
+      <div className="flex justify-center">
         <ul className="flex flex-col gap-4">
           {items.map((i) => (
             <SidebarButton
@@ -75,12 +77,11 @@ const Sidebar = ({ items, user }: Props) => {
             />
           ))}
         </ul>
-        <div className="flex-1"></div>
       </div>
-      <div className="flex flex-1 items-end justify-center">
-        <span className={`${collapsed ? "hidden " : ""}mb-4`}>
-          Light / Dark
-        </span>
+
+      {/* THEME */}
+      <div className="flex items-end justify-center">
+        <span className={`${collapsed ? "hidden " : ""}`}>Light / Dark</span>
       </div>
     </section>
   );
