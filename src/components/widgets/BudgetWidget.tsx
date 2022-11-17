@@ -47,7 +47,7 @@ const BudgetWidget = () => {
             width="99%" aspect={3} came from
             https://stackoverflow.com/questions/50891591/recharts-responsive-container-does-not-resize-correctly-in-flexbox
             */}
-            <ResponsiveContainer className="flex-1" width="99%" aspect={3}>
+            <ResponsiveContainer width="99%" aspect={4}>
               <AreaChart data={data}>
                 <defs>
                   <linearGradient id="areaColor" x1="0" y1="0" x2="0" y2="1">
